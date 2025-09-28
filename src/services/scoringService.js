@@ -1,7 +1,3 @@
-/**
- * This Following Code has been generated via OpenAI.
- * Reviewed It
- */
 const config = require('../config');
 
 class ScoringService {
