@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Markopolo - Email Subject Line Analyzer</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+			rel="stylesheet" />
+		<style>
+			.gradient-bg {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			}
+			.glass-effect {
+				backdrop-filter: blur(10px);
+				background: rgba(255, 255, 255, 0.1);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+			}
+			.fade-in {
+				animation: fadeIn 0.5s ease-in;
+			}
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			.pulse-animation {
+				animation: pulse 2s infinite;
+			}
+			@keyframes pulse {
+				0%,
+				100% {
+					opacity: 1;
+				}
+				50% {
+					opacity: 0.5;
+				}
+			}
+		</style>
+	</head>
+	<body class="min-h-screen gradient-bg">
+		<!-- Header -->
+		<header class="glass-effect shadow-lg">
+			<div class="container mx-auto px-4 py-6">
+				<div class="flex items-center justify-between">
+					<div class="flex items-center space-x-3">
+						<h1 class="text-2xl font-bold text-white">Markopolo</h1>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Main Content -->
+		<main class="container mx-auto px-4 py-8">
+			<div class="max-w-4xl mx-auto">
+				<div class="text-center mb-12 fade-in">
+					<h2 class="text-4xl font-bold text-white mb-4">
+						Optimize Your Email Subject Lines
+					</h2>
+					<p class="text-xl text-white text-opacity-90 mb-8">
+						Get AI-powered insights and suggestions to improve your
+						email marketing performance
+					</p>
+				</div>
+
+				<!-- Analysis Form -->
+				<div class="glass-effect rounded-2xl p-8 mb-8 fade-in">
+					<form id="analysisForm" class="space-y-6">
+						<div>
+							<label
+								for="subject"
+								class="block text-white font-semibold mb-2">
+								<i class="fas fa-envelope mr-2"></i>Email
+								Subject Line
+							</label>
+							<textarea
+								id="subject"
+								name="subject"
+								rows="3"
+								class="w-full px-4 py-3 rounded-lg border-2 border-white border-opacity-20 bg-white bg-opacity-10 text-white placeholder-white placeholder-opacity-70 focus:border-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300"
+								placeholder="Enter your email subject line here..."
+								maxlength="200"
+								required></textarea>
+							<div class="flex justify-between items-center mt-2">
+								<span
+									id="charCount"
+									class="text-white text-opacity-70 text-sm"
+									>0/200 characters</span
+								>
+								<span
+									id="subjectError"
+									class="text-red-300 text-sm hidden"></span>
+							</div>
+						</div>
+
+						<div>
+							<label
+								for="industry"
+								class="block text-white font-semibold mb-2">
+								<i class="fas fa-industry mr-2"></i>Industry
+							</label>
+							<select
+								id="industry"
+								name="industry"
+								class="w-full px-4 py-3 rounded-lg border-2 border-white border-opacity-20 bg-white bg-opacity-10 text-white focus:border-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300"
+								required>
+								<option value="" class="bg-gray-800 text-white">
+									Select your industry
+								</option>
+								<option
+									value="e-commerce"
+									class="bg-gray-800 text-white">
+									E-commerce
+								</option>
+								<option
+									value="saas"
+									class="bg-gray-800 text-white">
+									SaaS
+								</option>
+								<option
+									value="retail"
+									class="bg-gray-800 text-white">
+									Retail
+								</option>
+								<option
+									value="healthcare"
+									class="bg-gray-800 text-white">
+									Healthcare
+								</option>
+								<option
+									value="finance"
+									class="bg-gray-800 text-white">
+									Finance
+								</option>
+								<option
+									value="education"
+									class="bg-gray-800 text-white">
+									Education
+								</option>
+							</select>
+							<span
+								id="industryError"
+								class="text-red-300 text-sm hidden"></span>
+						</div>
+
+						<button
+							type="submit"
+							id="analyzeBtn"
+							class="w-full bg-white text-purple-600 font-bold py-4 px-6 rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300 transform hover:scale-105">
+							<i class="fas fa-magic mr-2"></i>
+							<span id="btnText">Analyze Subject Line</span>
+							<i
+								id="loadingIcon"
+								class="fas fa-spinner fa-spin ml-2 hidden"></i>
+						</button>
+					</form>
+				</div>
+
+				<!-- Results Section -->
+				<div id="resultsSection" class="hidden fade-in">
+					<div class="glass-effect rounded-2xl p-8">
+						<h3 class="text-2xl font-bold text-white mb-6">
+							<i class="fas fa-chart-line mr-2"></i>Analysis
+							Results
+						</h3>
+
+						<!-- Score Display -->
+						<div class="mb-8">
+							<div class="flex items-center justify-between mb-4">
+								<h4 class="text-lg font-semibold text-white">
+									Overall Score
+								</h4>
+								<span
+									id="scoreValue"
+									class="text-3xl font-bold text-white"></span>
+							</div>
+							<div
+								class="w-full bg-white bg-opacity-20 rounded-full h-4">
+								<div
+									id="scoreBar"
+									class="h-4 rounded-full transition-all duration-1000"></div>
+							</div>
+							<p
+								id="scoreDescription"
+								class="text-white text-opacity-80 mt-2"></p>
+						</div>
+
+						<!-- Issues -->
+						<div class="mb-8">
+							<h4 class="text-lg font-semibold text-white mb-4">
+								<i class="fas fa-exclamation-triangle mr-2"></i
+								>Issues Found
+							</h4>
+							<div id="issuesList" class="space-y-2"></div>
+						</div>
+
+						<!-- AI Insights -->
+						<div class="mb-8">
+							<h4 class="text-lg font-semibold text-white mb-4">
+								<i class="fas fa-lightbulb mr-2"></i>AI Insights
+							</h4>
+							<div class="bg-white bg-opacity-10 rounded-lg p-4">
+								<p
+									id="aiInsights"
+									class="text-white text-opacity-90 leading-relaxed"></p>
+							</div>
+						</div>
+
+						<!-- Suggestions -->
+						<div>
+							<h4 class="text-lg font-semibold text-white mb-4">
+								<i class="fas fa-star mr-2"></i>AI-Powered
+								Suggestions
+							</h4>
+							<div id="suggestionsList" class="space-y-4"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Error Section -->
+				<div id="errorSection" class="hidden fade-in">
+					<div
+						class="bg-red-500 bg-opacity-20 border border-red-500 border-opacity-50 rounded-2xl p-6">
+						<div class="flex items-center mb-4">
+							<i
+								class="fas fa-exclamation-circle text-red-300 text-xl mr-3"></i>
+							<h3 class="text-lg font-semibold text-red-300">
+								Error
+							</h3>
+						</div>
+						<p id="errorMessage" class="text-red-200"></p>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="glass-effect mt-16">
+			<div class="container mx-auto px-4 py-6">
+				<div class="text-center text-white text-opacity-70">
+					<p>
+						&copy; 2024 Markopolo. AI-powered email marketing
+						optimization.
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<script src="js/app.js"></script>
+	</body>
+</html>
